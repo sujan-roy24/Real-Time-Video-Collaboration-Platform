@@ -1,0 +1,51 @@
+# ASP.NET Core
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/*.user
+**/*.suo
+**/*.cache
+**/appsettings.Development.json
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet Packages
+**/*.nupkg
+nuget.exe
+
+# Local development
+*.swp
+*.swo
+
+# IDE specific
+.idea/
+.vs/
+
+# User-specific files
+*.userprefs
+.sln
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Libman
+libman.json
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Chat Room</title>
+    <link rel="stylesheet" href="~/css/room.css" />
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="session-check" style="display: none;">
+        <div style="text-align: center; margin-top: 50px;">
+            <h2>Please enter your username first</h2>
+            <button onclick="redirectToHome()" style="padding: 10px 20px;">Go to Home</button>
+        </div>
+    </div>
+
+    <div id="room-content" style="display: none;">
+        <div class="room-wrapper">
+            <!-- Participants Sidebar -->
+            <div class="participants-sidebar">
+                <div class="sidebar-header">
+                    <h3>Participants</h3>
+                    <span id="participant-count" class="participant-count">0</span>
+                </div>
+                <div class="participants-list" id="participants-list">
+                    <!-- Participants will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Main Video Section -->
+            <div class="main-video-section">
+                <div class="room-info">
+                    <h3>Room: <span class="room-id">@ViewBag.RoomId</span></h3>
+                    <p>Welcome, <span class="username" id="username-display"></span></p>
+                </div>
+
+                <!-- Video Grid -->
+                <div class="video-grid" video-grid></div>
+
+                <!-- Media Controls -->
+                <div class="media-controls">
+                    <button id="toggle-camera" class="control-btn active" title="Toggle Camera">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button id="toggle-mic" class="control-btn active" title="Toggle Microphone">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="leave-room" class="control-btn leave" title="Leave Room">
+                        <i class="fas fa-phone-slash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h3>Chat</h3>
+                    <button id="expand-chat" class="expand-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input-container">
+                    <form class="chat-input-form">
+                        <input type="text" class="chat-input" placeholder="Type a message..." />
+                        <button type="submit" class="send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="~/js/room.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                document.getElementById('session-check').style.display = 'block';
+                document.getElementById('room-content').style.display = 'none';
+            } else {
+                document.getElementById('session-check').style.display = 'none';
+                document.getElementById('room-content').style.display = 'block';
+                document.getElementById('username-display').textContent = username;
+                initializeRoom('@ViewBag.RoomId', username);
+            }
+        });
+
+        function redirectToHome() {
+            window.location.href = '/';
+        }
+
+        // Handle browser back button
+        window.onpopstate = function(event) {
+            if (!localStorage.getItem('username')) {
+                redirectToHome();
+            }
+        };
+    </script>
+</body>
+</html>
